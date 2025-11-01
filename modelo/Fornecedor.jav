@@ -26,7 +26,7 @@ public class Fornecedor{
         return id;
     }
 
-    public String getNome(){
+    public String getNomeFornecedor(){
         return nomeFornecedor;
     }
 
