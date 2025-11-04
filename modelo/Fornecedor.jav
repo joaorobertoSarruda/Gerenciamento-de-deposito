@@ -10,31 +10,21 @@ public class Fornecedor{
         this.id = id;
         this.nomeFornecedor = nomeFornecedor;
         this.cnpj = cnpj;
-        this.telefone = telefone
+        this.telefone = telefone;
     }
-
-    public String getContato(){
-        return "Nome: " + nomeFornecedor + " | Telefone: " + telefone;
-    }
-
-    public String atualizarTelefone (String novoTelefone){
+    public void atualizarTelefone (String novoTelefone){
         this.telefone = novoTelefone;
-        System.out.println("Telefone de " + nomeFornecedor + "Atualizado para: " + novoTelefone);
-    }
-
-    public int getId(){
-        return id;
-    }
-
-    public String getNomeFornecedor(){
-        return nomeFornecedor;
-    }
-
-    public String getCnpj(){
-        return cnpj;
+         System.out.println("Telefone de " + nomeFornecedor + "Atualizado para: " + novoTelefone);
     }
 
     public void setTelefone(String telefone){
         this.telefone = telefone;
     }
+      public String getDetalhes(){
+        String detalhes =   "Id: " + id + "\n" +
+                            "Nome: " + nomeFornecedor + "\n" +
+                            "CNPJ: " + cnpj + "\n" +
+                            "Telefone: " + telefone + "\n";
+        return detalhes;
+                      
 }
