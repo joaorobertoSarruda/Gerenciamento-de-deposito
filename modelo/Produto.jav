@@ -8,14 +8,15 @@ public class Produto{
     private double precoVenda;
     Fornecedor f1;
 
-    public Produto(int codigo, String nomeProduto, String descricao, double precoCusto, double precoVenda);
+    public Produto(int codigo, String nomeProduto, String descricao, double precoCusto, double precoVenda){
     this.codigo = codigo;
     this. nomeProduto = nomeProduto;
     this.descricao = descricao;
     this.precoCusto = precoCusto;
     this.precoVenda = precoVenda;
+}
 
-    atualizarPrecoVenda(double novoPreco){
+    public void atualizarPrecoVenda(double novoPreco){
         if (novoPreco > this.precoCusto){
             this.precoVenda = novoPreco;
             System.out.println("Preço atualizado para: "+novoPreco);
@@ -32,7 +33,7 @@ public class Produto{
                           "Preço Custo: R$" + precoCusto + "\n" +
                           "Preço Venda: R$" + precoVenda + "\n" +
                           "Fornecedor: " + (fornecedor != null ? fornecedor.getNomeFornecedor() : "N/A")
-        return detalhes
+        return detalhes;
     }
 
     public void setFornecedor(Fornecedor f1){
