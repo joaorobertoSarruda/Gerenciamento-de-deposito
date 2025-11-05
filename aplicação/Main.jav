@@ -1,32 +1,21 @@
-package aplicação;
+package aplicacao;
 
 import modelo.*;
 import java.util.ArrayList;
-import java.util.Scanner; // Necessário para entrada de dados do usuário
+import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         
-         // Método para encontrar um produto pelo código (ajuda na remoção/edição)
-         private static Produto buscarProdutoPorCodigo(ArrayList<Produto> produtos, int codigo) {
-        for (Produto p : produtos) {
-            if (p.getCodigo() == codigo) {
-                return p;
-            }
-        }
-        return null;
-    }
-        // Listas para armazenar os objetos
+
         ArrayList<Fornecedor> fornecedores = new ArrayList<>();
         ArrayList<Produto> produtos = new ArrayList<>();
         ArrayList<Mercado> mercados = new ArrayList<>();
-        Estoque depositoCentral = new Estoque("Depósito Central"); // Supondo o construtor correto
+        Estoque depositoCentral = new Estoque("Depósito Central");
 
-        // ==========================================================
-        // DADOS INICIAIS (Para testar o menu imediatamente)
-        // ==========================================================
+
         Fornecedor f1 = new Fornecedor(1, "Grãos & Cia", "11.111.111/0001-11", "555-1234");
         fornecedores.add(f1);
         
@@ -54,10 +43,9 @@ public class Main {
             System.out.println("---------------------------------------------");
             System.out.print("Escolha uma opção: ");
 
-            // Tenta ler a opção, tratando erros de digitação
             try {
                 opcao = scanner.nextInt();
-                scanner.nextLine(); // Limpa o buffer do scanner
+                scanner.nextLine(); // Limpa o buffer do scanner (após o int)
             } catch (java.util.InputMismatchException e) {
                 System.out.println("\nERRO: Entrada inválida. Por favor, digite um número de 0 a 5.");
                 scanner.nextLine(); // Limpa a linha para evitar loop infinito
@@ -80,11 +68,11 @@ public class Main {
                     }
                     break;
 
-                case 2: // Adicionar Novo Produto (Simplificado para o console)
+                case 2: // Adicionar Novo Produto
                     System.out.println("\n--- Adicionar Novo Produto ---");
                     System.out.print("Código: ");
                     int codigo = scanner.nextInt();
-                    scanner.nextLine(); 
+                    scanner.nextLine(); // Limpar buffer
                     System.out.print("Nome: ");
                     String nome = scanner.nextLine();
                     System.out.print("Descrição: ");
@@ -93,6 +81,7 @@ public class Main {
                     double custo = scanner.nextDouble();
                     System.out.print("Preço Venda: ");
                     double venda = scanner.nextDouble();
+                    scanner.nextLine(); // Limpar buffer
                     
                     Produto novoProduto = new Produto(codigo, nome, descricao, custo, venda);
                     produtos.add(novoProduto);
@@ -105,11 +94,14 @@ public class Main {
                     System.out.println("\n--- Editar Preço de Venda ---");
                     System.out.print("Digite o código do produto para editar: ");
                     int codigoEditar = scanner.nextInt();
+                    scanner.nextLine(); // Limpar buffer
+                    
                     Produto produtoEditar = buscarProdutoPorCodigo(produtos, codigoEditar);
                     
                     if (produtoEditar != null) {
                         System.out.print("Novo Preço de Venda: ");
                         double novoPreco = scanner.nextDouble();
+                        scanner.nextLine(); // Limpar buffer
                         produtoEditar.atualizarPrecoVenda(novoPreco);
                     } else {
                         System.out.println("ERRO: Produto com código " + codigoEditar + " não encontrado.");
@@ -120,6 +112,8 @@ public class Main {
                     System.out.println("\n--- Remover Produto ---");
                     System.out.print("Digite o código do produto para remover: ");
                     int codigoRemover = scanner.nextInt();
+                    scanner.nextLine(); // Limpar buffer
+                    
                     Produto produtoRemover = buscarProdutoPorCodigo(produtos, codigoRemover);
                     
                     if (produtoRemover != null) {
@@ -131,8 +125,8 @@ public class Main {
                     break;
 
                 case 5: // Ver Estoque Central
-                    System.out.println("\n--- Estoque do " + depositoCentral.getLocal() + " ---");
-                    depositoCentral.listarItens(); // Supondo que você tem um método listarItens()
+                    System.out.println("\n--- Estoque do " + depositoCentral.getNomeLocal() + " ---");
+                    depositoCentral.listarItens();
                     break;
 
                 case 0: // Sair
@@ -144,5 +138,19 @@ public class Main {
             }
         }
         scanner.close(); // Fechar o scanner quando o loop termina.
+    
     }
+    
+    /**
+     * Método auxiliar para encontrar um produto na lista pelo seu código.
+     */
+    private static Produto buscarProdutoPorCodigo(ArrayList<Produto> produtos, int codigo) {
+        for (Produto p : produtos) {
+            if (p.getCodigo() == codigo) {
+                return p;
+            }
+        }
+        return null; // Retorna null se não encontrar o produto
+    }
+    
 }
