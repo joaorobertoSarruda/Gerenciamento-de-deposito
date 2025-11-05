@@ -20,6 +20,16 @@ public class Produto {
     public void atualizarPrecoVenda(double novoPreco) {
         // Regra de negócio: Não permitir que o preço de venda seja menor que o custo.
         if (novoPreco > this.precoCusto) {
+    public Produto(int codigo, String nomeProduto, String descricao, double precoCusto, double precoVenda){
+    this.codigo = codigo;
+    this. nomeProduto = nomeProduto;
+    this.descricao = descricao;
+    this.precoCusto = precoCusto;
+    this.precoVenda = precoVenda;
+}
+
+    public void atualizarPrecoVenda(double novoPreco){
+        if (novoPreco > this.precoCusto){
             this.precoVenda = novoPreco;
             System.out.println("Preço de '" + this.nomeProduto + "' atualizado para: R$" + novoPreco);
         } else {
@@ -71,6 +81,12 @@ public class Produto {
 
     public void setPrecoCusto(double precoCusto) {
         this.precoCusto = precoCusto;
+                          "Nome: " + nomeProduto + "\n" +
+                          "Descrição: " + descricao + "\n" +
+                          "Preço Custo: R$" + precoCusto + "\n" +
+                          "Preço Venda: R$" + precoVenda + "\n" +
+                          "Fornecedor: " + (fornecedor != null ? fornecedor.getNomeFornecedor() : "N/A")
+        return detalhes;
     }
 
     public void setFornecedor(Fornecedor f1) {
