@@ -2,122 +2,147 @@ package aplicação;
 
 import modelo.*;
 import java.util.ArrayList;
+import java.util.Scanner; // Necessário para entrada de dados do usuário
 
-public class Main{
+public class Main {
 
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         
-        // Listas para armazenar os objetos principais (Requisito 4)
+         // Método para encontrar um produto pelo código (ajuda na remoção/edição)
+         private static Produto buscarProdutoPorCodigo(ArrayList<Produto> produtos, int codigo) {
+        for (Produto p : produtos) {
+            if (p.getCodigo() == codigo) {
+                return p;
+            }
+        }
+        return null;
+    }
+        // Listas para armazenar os objetos
         ArrayList<Fornecedor> fornecedores = new ArrayList<>();
         ArrayList<Produto> produtos = new ArrayList<>();
         ArrayList<Mercado> mercados = new ArrayList<>();
-
-        // Cria o estoque central
-        Estoque depositoCentral = new Estoque("Depósito Central");
+        Estoque depositoCentral = new Estoque("Depósito Central"); // Supondo o construtor correto
 
         // ==========================================================
-        // 1. ADICIONAR OBJETOS
+        // DADOS INICIAIS (Para testar o menu imediatamente)
         // ==========================================================
-        System.out.println("========= 1. ADICIONANDO DADOS =========");
-        
         Fornecedor f1 = new Fornecedor(1, "Grãos & Cia", "11.111.111/0001-11", "555-1234");
-        Fornecedor f2 = new Fornecedor(2, "Bebidas SA", "22.222.222/0001-22", "555-5678");
         fornecedores.add(f1);
-        fornecedores.add(f2);
-
+        
         Produto p1 = new Produto(101, "Arroz 1kg", "Arroz branco Tipo 1", 3.50, 5.00);
-        p1.setFornecedor(f1); // Vincula fornecedor ao produto
-        Produto p2 = new Produto(102, "Feijão 1kg", "Feijão carioca", 5.00, 7.50);
-        p2.setFornecedor(f1);
-        Produto p3 = new Produto(201, "Refrigerante 2L", "Refrigerante sabor cola", 4.00, 6.00);
-        p3.setFornecedor(f2);
-        
+        p1.setFornecedor(f1);
         produtos.add(p1);
-        produtos.add(p2);
-        produtos.add(p3);
-
-        // Adicionando Produtos ao Depósito Central
-        depositoCentral.adicionarProduto(p1, 500);
-        depositoCentral.adicionarProduto(p2, 300);
-        depositoCentral.adicionarProduto(p3, 400);
-
+        
         Mercado m1 = new Mercado(1, "Mercado Centro", "Rua das Flores, 123");
-        Mercado m2 = new Mercado(2, "Mercado Bairro", "Av. Principal, 987");
         mercados.add(m1);
-        mercados.add(m2);
+        depositoCentral.adicionarProduto(p1, 500); // Adiciona ao estoque
+        // ==========================================================
+        
+        int opcao = -1;
 
-        // ==========================================================
-        // 2. LISTAR OBJETOS
-        // ==========================================================
-        System.out.println("\n========= 2. LISTANDO DADOS INICIAIS =========");
-        
-        System.out.println("--- Lista de Fornecedores ---");
-        for(Fornecedor f : fornecedores) {
-            System.out.println(f.toString());
-        }
+        while (opcao != 0) {
+            System.out.println("\n=============================================");
+            System.out.println("            MENU DE GERENCIAMENTO            ");
+            System.out.println("=============================================");
+            System.out.println("1. Listar Produtos");
+            System.out.println("2. Adicionar Novo Produto");
+            System.out.println("3. Editar Preço de Venda do Produto");
+            System.out.println("4. Remover Produto");
+            System.out.println("5. Ver Estoque Central");
+            System.out.println("0. Sair");
+            System.out.println("---------------------------------------------");
+            System.out.print("Escolha uma opção: ");
 
-        System.out.println("\n--- Lista de Produtos (Detalhes) ---");
-        for(Produto p : produtos) {
-            System.out.println(p.getDetalhes());
-            System.out.println("---");
-        }
+            // Tenta ler a opção, tratando erros de digitação
+            try {
+                opcao = scanner.nextInt();
+                scanner.nextLine(); // Limpa o buffer do scanner
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("\nERRO: Entrada inválida. Por favor, digite um número de 0 a 5.");
+                scanner.nextLine(); // Limpa a linha para evitar loop infinito
+                opcao = -1;
+                continue;
+            }
 
-        depositoCentral.listarItens();
+            // ==========================================================
+            // LÓGICA DO MENU COM SWITCH
+            // ==========================================================
+            switch (opcao) {
+                case 1: // Listar Produtos
+                    System.out.println("\n--- Lista Completa de Produtos ---");
+                    if (produtos.isEmpty()) {
+                        System.out.println("Nenhum produto cadastrado.");
+                    }
+                    for (Produto p : produtos) {
+                        System.out.println(p.getDetalhes());
+                        System.out.println("--------------------------------");
+                    }
+                    break;
 
-        // ==========================================================
-        // 3. DEMONSTRAÇÃO DA LÓGICA (Simulando operações)
-        // ==========================================================
-        System.out.println("\n========= 3. SIMULANDO OPERAÇÕES =========");
-        
-        // Mercado 1 solicita abastecimento do Depósito
-        m1.solicitarAbastecimento(depositoCentral, 101, 50); // Pede 50 Arroz
-        
-        // Mercado 2 solicita abastecimento
-        m2.solicitarAbastecimento(depositoCentral, 102, 25); // Pede 25 Feijão
-        
-        System.out.println("\n--- Estoques após abastecimento ---");
-        depositoCentral.listarItens();
-        m1.verificarEstoqueLocal();
-        
-        // Mercado 1 realiza uma venda
-        m1.realizarVenda(101, 5); // Vende 5 Arroz
+                case 2: // Adicionar Novo Produto (Simplificado para o console)
+                    System.out.println("\n--- Adicionar Novo Produto ---");
+                    System.out.print("Código: ");
+                    int codigo = scanner.nextInt();
+                    scanner.nextLine(); 
+                    System.out.print("Nome: ");
+                    String nome = scanner.nextLine();
+                    System.out.print("Descrição: ");
+                    String descricao = scanner.nextLine();
+                    System.out.print("Preço Custo: ");
+                    double custo = scanner.nextDouble();
+                    System.out.print("Preço Venda: ");
+                    double venda = scanner.nextDouble();
+                    
+                    Produto novoProduto = new Produto(codigo, nome, descricao, custo, venda);
+                    produtos.add(novoProduto);
+                    System.out.println("\nProduto '" + nome + "' adicionado com sucesso!");
+                    
+                    // Nota: Aqui seria o local para escolher o Fornecedor e o estoque inicial.
+                    break;
 
-        System.out.println("\n--- Estoque Mercado 1 após venda ---");
-        m1.verificarEstoqueLocal();
+                case 3: // Editar Preço de Venda
+                    System.out.println("\n--- Editar Preço de Venda ---");
+                    System.out.print("Digite o código do produto para editar: ");
+                    int codigoEditar = scanner.nextInt();
+                    Produto produtoEditar = buscarProdutoPorCodigo(produtos, codigoEditar);
+                    
+                    if (produtoEditar != null) {
+                        System.out.print("Novo Preço de Venda: ");
+                        double novoPreco = scanner.nextDouble();
+                        produtoEditar.atualizarPrecoVenda(novoPreco);
+                    } else {
+                        System.out.println("ERRO: Produto com código " + codigoEditar + " não encontrado.");
+                    }
+                    break;
 
-        // ==========================================================
-        // 4. EDITAR OBJETOS
-        // ==========================================================
-        System.out.println("\n========= 4. EDITANDO DADOS =========");
-        
-        // Editando o telefone do Fornecedor 2
-        f2.atualizarTelefone("555-9999");
-        
-        // Editando o preço de venda do Produto 1 (Arroz)
-        p1.atualizarPrecoVenda(5.50);
+                case 4: // Remover Produto
+                    System.out.println("\n--- Remover Produto ---");
+                    System.out.print("Digite o código do produto para remover: ");
+                    int codigoRemover = scanner.nextInt();
+                    Produto produtoRemover = buscarProdutoPorCodigo(produtos, codigoRemover);
+                    
+                    if (produtoRemover != null) {
+                        produtos.remove(produtoRemover);
+                        System.out.println("Produto '" + produtoRemover.getNomeProduto() + "' removido.");
+                    } else {
+                        System.out.println("ERRO: Produto com código " + codigoRemover + " não encontrado.");
+                    }
+                    break;
 
-        // ==========================================================
-        // 5. REMOVER OBJETOS
-        // ==========================================================
-        System.out.println("\n========= 5. REMOVENDO DADOS =========");
-        
-        System.out.println("Total de produtos na lista antes: " + produtos.size());
-        
-        // Para remover, precisamos encontrar o objeto. 
-        // Vamos remover o Produto 3 (Refrigerante)
-        Produto produtoParaRemover = null;
-        for(Produto p : produtos) {
-            if (p.getCodigo() == 201) { // Código 201 = Refrigerante
-                produtoParaRemover = p;
-                break;
+                case 5: // Ver Estoque Central
+                    System.out.println("\n--- Estoque do " + depositoCentral.getLocal() + " ---");
+                    depositoCentral.listarItens(); // Supondo que você tem um método listarItens()
+                    break;
+
+                case 0: // Sair
+                    System.out.println("\nSaindo do sistema. Até logo!");
+                    break;
+                    
+                default:
+                    System.out.println("\nOpção inválida. Tente novamente.");
             }
         }
-        
-        if(produtoParaRemover != null) {
-            produtos.remove(produtoParaRemover);
-            System.out.println("Produto '" + produtoParaRemover.getNomeProduto() + "' removido da lista principal.");
-        }
-        
-        System.out.println("Total de produtos na lista depois: " + produtos.size());
+        scanner.close(); // Fechar o scanner quando o loop termina.
     }
 }
