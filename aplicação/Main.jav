@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Main {
+    
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -13,7 +14,9 @@ public class Main {
         ArrayList<Fornecedor> fornecedores = new ArrayList<>();
         ArrayList<Produto> produtos = new ArrayList<>();
         ArrayList<Mercado> mercados = new ArrayList<>();
+        ArrayList<Mercado> unidades = new ArrayList<>();
         Estoque depositoCentral = new Estoque("Depósito Central");
+        EstoqueLocal estoque = new EstoqueLocal("Mercado Central", "Rua das Flores, 123", 250, 12500.50);
 
 
         Fornecedor f1 = new Fornecedor(1, "Grãos & Cia", "11.111.111/0001-11", "555-1234");
@@ -27,6 +30,16 @@ public class Main {
         mercados.add(m1);
         depositoCentral.adicionarProduto(p1, 500); // Adiciona ao estoque
         // ==========================================================
+       
+        // Adiciona diferentes tipos de unidades (superclasse e subclasses)
+        unidades.add(m1);                // Objeto da superclasse Mercado
+        unidades.add(estoque);           // Objeto da subclasse EstoqueLocal
+
+        // Percorre a lista e chama o mesmo método para todos
+        for (Mercado unidade : unidades) {
+            unidade.exibirInfo();  // Polimorfismo: comportamento muda conforme a classe real
+            System.out.println("---------------------------------------------");
+        }
         
         int opcao = -1;
 
@@ -151,6 +164,12 @@ public class Main {
             }
         }
         return null; // Retorna null se não encontrar o produto
-    }
+    // Métodos herdados da superclasse
+        estoque.exibirInfo();
+
+        // Métodos da subclasse
+        estoque.exibirEstoqueLocal();
     
+    }
+      
 }
