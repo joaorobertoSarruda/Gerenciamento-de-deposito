@@ -1,8 +1,6 @@
 package modelo;
 
-/**
- * Representa a relação entre um Produto e a sua quantidade em um Estoque.
- */
+
 public class ItemEstoque {
     private Produto produto;
     private int quantidade;
@@ -18,10 +16,6 @@ public class ItemEstoque {
         }
     }
 
-    /**
-     * Tenta remover uma quantidade do estoque.
-     * Retorna true se a remoção foi bem-sucedida, false caso contrário.
-     */
     public boolean removerQuantidade(int valor) {
         if (valor > 0 && this.quantidade >= valor) {
             this.quantidade -= valor;

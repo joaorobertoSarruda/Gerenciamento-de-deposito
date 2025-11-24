@@ -1,5 +1,7 @@
 package modelo;
 
+import exceções.ValorInvalidoException;
+
 public class Produto {
     private int codigo;
     private String nomeProduto;
@@ -7,23 +9,29 @@ public class Produto {
     private double precoCusto;
     private double precoVenda;
     private Fornecedor fornecedor;
-    public Produto(int codigo, String nomeProduto, String descricao, double precoCusto, double precoVenda) {
+
+    public Produto(int codigo, String nomeProduto, String descricao, double precoCusto, double precoVenda) throws ValorInvalidoException {
+        if (precoCusto < 0 || precoVenda < 0) {
+            throw new ValorInvalidoException("Preço de custo ou venda não podem ser negativos.");
+        }
+        
         this.codigo = codigo;
         this.nomeProduto = nomeProduto;
         this.descricao = descricao;
         this.precoCusto = precoCusto;
         this.precoVenda = precoVenda;
-        // O fornecedor pode ser definido depois com setFornecedor()
     }
 
-    // Método atualizarPrecoVenda
-    public void atualizarPrecoVenda(double novoPreco) {
-        // Regra de negócio: Não permitir que o preço de venda seja menor que o custo.
+    public void atualizarPrecoVenda(double novoPreco) throws ValorInvalidoException {
+        if (novoPreco < 0) {
+            throw new ValorInvalidoException("O preço não pode ser negativo.");
+        }
+        
         if (novoPreco > this.precoCusto) {
             this.precoVenda = novoPreco;
             System.out.println("Preço de '" + this.nomeProduto + "' atualizado para: R$" + novoPreco);
         } else {
-            System.out.println("ERRO! Novo preço de venda (R$" + novoPreco + ") deve ser maior que o preço de custo (R$" + this.precoCusto + ").");
+            throw new ValorInvalidoException("Novo preço (R$" + novoPreco + ") deve ser maior que o custo (R$" + this.precoCusto + ").");
         }
     }
 
@@ -71,7 +79,6 @@ public class Produto {
 
     public void setPrecoCusto(double precoCusto) {
         this.precoCusto = precoCusto;
-
     }
 
     public void setFornecedor(Fornecedor f1) {
