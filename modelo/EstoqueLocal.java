@@ -1,26 +1,20 @@
 package modelo;
 
-public class EstoqueLocal extends Mercado{
-    private String nomeLocal; // Ex: "Depósito Central" ou "Mercado Filial Centro"
-    private int quantidadeProdutos;
-    private double valorTotal;
+public class EstoqueLocal extends Estoque implements Imprimivel {
+    private double valorTotalPatrimonio;
 
-    public EstoqueLocal(String nomeLocal, int quantidadeProdutos, double valorTotal,int id, String nome, String endereco) {
-        super(nome,id, endereco);
-        this.nomeLocal = nomeLocal;
-        this.quantidadeProdutos = quantidadeProdutos;
-        this.valorTotal = valorTotal;
+    //construtor
+    public EstoqueLocal(String nomeLocal, double valorTotalPatrimonio) {
+        super(nomeLocal);
+        this.valorTotalPatrimonio = valorTotalPatrimonio;
     }
-     public void exibirEstoqueLocal() {
-        System.out.println("Quantidade de produtos: " + quantidadeProdutos);
-        System.out.println("Valor total em estoque: R$ " + valorTotal);
-    }
+
+    // Implementação obrigatória da interface Imprimivel
     @Override
     public void exibirInfo() {
-        System.out.println("Informações do estoque:");
-        System.out.println("Mercado: " + nome);
-        System.out.println("Endereço: " + endereco);
-        System.out.println("Produtos: " + quantidadeProdutos);
-        System.out.println("Valor total: R$ " + valorTotal);
+        System.out.println("=== Detalhes do Estoque Local ===");
+        System.out.println("Local: " + this.nomeLocal);
+        System.out.println("Qtd Tipos de Produtos: " + this.itens.size());
+        System.out.println("Valor Patrimônio Inicial: R$ " + this.valorTotalPatrimonio);
     }
 }

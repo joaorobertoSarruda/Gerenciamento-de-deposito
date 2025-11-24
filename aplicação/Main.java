@@ -1,10 +1,12 @@
 package aplicacao;
 
 import modelo.*;
-import exeções.ValorInvalidoException;
+
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import exceções.ValorInvalidoException;
 
 public class Main {
 
@@ -37,13 +39,12 @@ public class Main {
         // --- Adicionando produto inicial com tratamento de erro ---
         try {
             Produto p1 = new Produto(101, "Arroz", "Tipo 1", 4.00, 6.00); 
-            // Obs: Certifique-se que sua classe Produto lança exceção no construtor
             produtos.add(p1);
             depositoCentral.adicionarProduto(p1, 100);
         } catch (ValorInvalidoException e) {
             System.out.println("Erro ao criar produto inicial: " + e.getMessage());
         } catch (Exception e) {
-            // Caso sua classe Produto ainda não tenha o throws no construtor, ignore o catch acima
+            System.out.println("Erro genérico ao criar produto inicial: " + e.getMessage());
         }
 
         int opcao = -1;
